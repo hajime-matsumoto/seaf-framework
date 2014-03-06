@@ -38,6 +38,12 @@ class Request
     {
         $this->setUri( $uri );
         $this->setMethod( $method );
+
+        $this->init( );
+    }
+
+    public function init( )
+    {
     }
 
     /**
