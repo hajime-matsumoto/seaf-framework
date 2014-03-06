@@ -38,7 +38,8 @@ class FrontController
         $this->environment = new Environment( );
 
         // フレームワークコンポーネントを読み込み可能にする
-        $this->environment->addComponentNamespace( __NAMESPACE__.'\\Component' );
+        $ns = Seaf::util()->getNameSpace($this);
+        $this->environment->addComponentNamespace($ns.'\\Component');
 
         $this->map(
             'newRequest',
