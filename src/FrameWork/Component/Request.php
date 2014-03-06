@@ -13,11 +13,12 @@ namespace Seaf\FrameWork\Component;
 
 use Seaf;
 use Seaf\Core\Environment\Environment;
+use Seaf\Core\Base\Container;
 
 /**
  * リクエストクラス
  */
-class Request
+class Request extends Container
 {
     const METHOD_GET    = 'GET';
     const METHOD_POST   = 'POST';

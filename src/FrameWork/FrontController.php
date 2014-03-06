@@ -63,6 +63,13 @@ class FrontController implements EnvironmentAcceptableIF
         }
 
         // フレームワークコンポーネントを読み込み可能にする
+
+        $parent_class = get_parent_class($this);
+        if (!empty($parent_class)) {
+            $ns = Seaf::util()->getNameSpace($parent_class);
+            $this->environment->addComponentNamespace($ns.'\\Component');
+        }
+
         $ns = Seaf::util()->getNameSpace($this);
         $this->environment->addComponentNamespace($ns.'\\Component');
 
@@ -98,6 +105,7 @@ class FrontController implements EnvironmentAcceptableIF
 
             // ディスパッチした関数がTRUEを返さない限りループを終わらせる
             if ($isContinue !== true) break;
+
 
             $router->next( );
         }
