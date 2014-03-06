@@ -13,17 +13,23 @@ namespace Seaf\FrameWork;
 
 use Seaf;
 use Seaf\Core\Environment\Environment;
+use Seaf\Core\Environment\EnvironmentAcceptableIF;
 use Seaf\FramwWork\Component\Request;
 
 /**
  * FramwWork Front Controller
  */
-class FrontController
+class FrontController implements EnvironmentAcceptableIF
 {
     /**
      * environment
      */
-    private $environment;
+    protected $environment;
+
+    /**
+     * parent environment
+     */
+    protected $parent_environment = null;
 
     /**
      * フレームワーク
@@ -32,10 +38,29 @@ class FrontController
     {
         $this->init( );
     }
+    
+    /**
+     * 親Environmentから引き継ぐもの
+     */
+    public function acceptEnvironment (Environment $env)
+    {
+        $this->parent_environment = $env;
+
+        $this->environment->register(
+            'config',
+            function () use ($env){
+                return $env->di('config');
+            }
+        );
+    }
 
     public function init ( )
     {
         $this->environment = new Environment( );
+
+        if ($this->parent_environment instanceof Environment) {
+            $this->acceptEnvironment( $this->parent_environment );
+        }
 
         // フレームワークコンポーネントを読み込み可能にする
         $ns = Seaf::util()->getNameSpace($this);

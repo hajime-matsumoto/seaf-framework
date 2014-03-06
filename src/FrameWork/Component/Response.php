@@ -64,6 +64,12 @@ class Response
         505 => 'HTTP Version Not Supported'
     ); // }}}
 
+
+    protected $status  = 200;
+    protected $headers = array();
+    protected $body    = '';
+    protected $params  = array();
+
     /** 初期処理 **/
 
     public function __construct( )
