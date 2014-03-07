@@ -135,6 +135,13 @@ class Response
         return json_encode ($array);
     }
 
+    public function getBodyClean( )
+    {
+        $body = $this->body;
+        $this->body = '';
+        return $body;
+    }
+
     /** 出力系  **/
 
     /** システム  **/

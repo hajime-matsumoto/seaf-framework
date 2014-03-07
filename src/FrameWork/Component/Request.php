@@ -25,7 +25,7 @@ class Request extends Container
     const METHOD_PUT    = 'PUT';
     const METHOD_DELETE = 'DELETE';
 
-    private $uri,$params,$method,$uri_mask;
+    private $uri,$params,$method,$uri_mask,$body;
 
     /**
      * 新規リクエストを発行
@@ -39,6 +39,13 @@ class Request extends Container
     {
         $this->setUri( $uri );
         $this->setMethod( $method );
+
+        $this->body = file_get_contents('php://input');
+        if (!empty($this->body)) {
+            $params = array();
+            parse_str($this->body, $params);
+            $this->set($params);
+        }
 
         $this->init( );
     }
@@ -59,6 +66,11 @@ class Request extends Container
     public function setUriMask($mask)
     {
         $this->uri_mask = rtrim($mask,'/');
+    }
+
+    public function getUriMask()
+    {
+        return $this->uri_mask;
     }
 
     public function setUri( $url )
@@ -89,6 +101,11 @@ class Request extends Container
     public function getMethod( )
     {
         return $this->method;
+    }
+
+    public function getBody( )
+    {
+        return $this->body;
     }
 
     private function uriMask( $uri )
